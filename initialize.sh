@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p Data/Biofeedback/
-touch db.sqlite
+touch me.db
 
 Command="CREATE TABLE Daily_Functionality (
     Date TEXT PRIMARY KEY NOT NULL,
@@ -28,7 +28,7 @@ Command="CREATE TABLE Daily_Functionality (
     Quality_Of_Life REAL NOT NULL DEFAULT 0,
     Notes TEXT 
 );"
-sqlite3 db.sqlite "$Command"
+sqlite3 me.db "$Command"
 
 Command="CREATE TABLE Weekly_Functionality (
     Starting_Date TEXT PRIMARY KEY NOT NULL,
@@ -54,7 +54,7 @@ Command="CREATE TABLE Weekly_Functionality (
     Total_Over_Extending REAL NOT NULL DEFAULT 0,
     Total_Quality_Of_Life REAL NOT NULL DEFAULT 0
 );"
-sqlite3 db.sqlite "$Command"
+sqlite3 me.db "$Command"
 
 Command="CREATE TABLE Monthly_Functionality (
     Starting_Date TEXT PRIMARY KEY NOT NULL,
@@ -80,7 +80,7 @@ Command="CREATE TABLE Monthly_Functionality (
     Average_Over_Extending REAL NOT NULL DEFAULT 0,
     Average_Quality_Of_Life REAL NOT NULL DEFAULT 0
 );"
-sqlite3 db.sqlite "$Command"
+sqlite3 me.db "$Command"
 
 Command="CREATE TABLE Annual_Functionality (
     Starting_Date TEXT PRIMARY KEY NOT NULL,
@@ -126,10 +126,10 @@ Command="CREATE TABLE Annual_Functionality (
     Average_Over_Extending REAL NOT NULL DEFAULT 0,
     Average_Quality_Of_Life REAL NOT NULL DEFAULT 0
 );"
-sqlite3 db.sqlite "$Command"
+sqlite3 me.db "$Command"
 
 Command="CREATE TABLE Burn_Log (
-    Datetime TEXT PRIMARY KEY NOT NULL,
+    Date TEXT PRIMARY KEY NOT NULL,
     Description TEXT NOT NULL,
     Peak_Arousal REAL NOT NULL DEFAULT 1,
     Peak_Aggression REAL NOT NULL DEFAULT 1,
@@ -138,7 +138,7 @@ Command="CREATE TABLE Burn_Log (
     Result TEXT NOT NULL,
     Biofeedback_Filepath TEXT
 );"
-sqlite3 db.sqlite "$Command"
+sqlite3 me.db "$Command"
 
 Command="CREATE TABLE Psych (
     Date TEXT PRIMARY KEY NOT NULL,
@@ -146,4 +146,4 @@ Command="CREATE TABLE Psych (
     Insight TEXT NOT NULL,
     Biofeedback_Filepath TEXT
 );"
-sqlite3 db.sqlite "$Command"
+sqlite3 me.db "$Command"
