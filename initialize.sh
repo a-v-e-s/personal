@@ -133,10 +133,30 @@ Command="CREATE TABLE Burn_Log (
     Description TEXT NOT NULL,
     Peak_Arousal REAL NOT NULL DEFAULT 1,
     Peak_Aggression REAL NOT NULL DEFAULT 1,
-    Pre_Existing_Stressors TEXT NOT NULL,
     Trigger_Thoughts TEXT NOT NULL,
     Result TEXT NOT NULL,
     Biofeedback_Filepath TEXT
+);"
+sqlite3 me.db "$Command"
+
+Command="CREATE TABLE Burn_Factors (
+    Date TEXT PRIMARY KEY NOT NULL,
+    XXX INTEGER DEFAULT 0,
+    Food INTEGER DEFAULT 0,
+    Bread INTEGER DEFAULT 0,
+    Cheese INTEGER DEFAULT 0,
+    Sleep_Deprivation INTEGER DEFAULT 0,
+    Noise INTEGER DEFAULT 0,
+    Barking_Dog INTEGER DEFAULT 0,
+    Media INTEGER DEFAULT 0,
+    Social_Media INTEGER DEFAULT 0,
+    People INTEGER DEFAULT 0,
+    Crowds INTEGER DEFAULT 0,
+    Traffic INTEGER DEFAULT 0,
+    Hangover INTEGER DEFAULT 0,
+    Other TEXT,
+    Total_Factors INTEGER DEFAULT 0,
+    FOREIGN KEY(Date) REFERENCES Burn_Log(Date)
 );"
 sqlite3 me.db "$Command"
 

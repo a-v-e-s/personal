@@ -57,3 +57,14 @@ def compile_monthly():
     # lots of stuff
     #
     db.commit()
+
+
+def compile_annual():
+    db = sqlite3.Connection('me.db')
+    curs = db.cursor()
+    #
+    statement = ""
+    #
+    # lots of stuff
+    #
+    db.commit()
