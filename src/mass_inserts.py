@@ -1,6 +1,28 @@
 import re, sqlite3, datetime, calendar
 from collections import OrderedDict
 
+"""
+# These are the crude and dirty functions I used 
+# to build the sqlite database in the first place
+# using python3:
+import os
+os.chdir(<path_to_me.db_directory>)
+import src.mass_inserts
+# for each week:
+text='''<copy+paste a week's worth of spreadsheet data>'''
+mass_inserts.parse(text)
+# then:
+import datetime
+d1 = datetime.date(year, month, day) # of first Sunday in dataset
+d2 = datetime.date(year, month, day) # of last Sunday in dataset
+mass_inserts.compile_weekly(d1, d2)
+mass_inserts.compile_monthly()
+# for each year in dataset:
+d1 = datetime.date(year, 1, 1)
+d2 = datetime.date(year, 12, 31)
+mass_inserts.compile_annual(d1, d2)
+"""
+
 
 def parse(text):
     db = sqlite3.Connection('me.db')
@@ -56,8 +78,8 @@ Burnout, Quality_Of_Life\
         statement = re.sub(r', $', r'', statement)
         statement += ');'
         #
-        #print(statement)
-        #print('\n\n')
+        print(statement)
+        print('\n\n')
         try:
             curs.execute(statement)
         except Exception as e:
@@ -130,8 +152,8 @@ Total_Burnout, Total_Quality_Of_Life\
                 statement += str(sums[x]) + ', '
             statement = re.sub(r', $', r'', statement)
             statement += ');'
-            #print(statement)
-            #print('\n\n')
+            print(statement)
+            print('\n\n')
             try:
                 curs.execute(statement)
             except Exception as e:
@@ -198,8 +220,8 @@ Total_Burnout, Total_Quality_Of_Life\
                 statement += str(sums[x]) + ', '
             statement = re.sub(r', $', r'', statement)
             statement += ');'
-            #print(statement)
-            #print('\n\n')
+            print(statement)
+            print('\n\n')
             try:
                 curs.execute(statement)
             except Exception as e:
@@ -323,8 +345,8 @@ Average_Burnout, Average_Quality_Of_Life\
         statement = re.sub(r', $', r'', statement)
         statement += ');'
         #
-        #print(statement)
-        #print('\n\n')
+        print(statement)
+        print('\n\n')
         try:
             curs.execute(statement)
         except Exception as e:
@@ -387,8 +409,8 @@ Average_Burnout, Average_Quality_Of_Life\
         statement = re.sub(r', $', r'', statement)
         statement += ');'
         #
-        #print(statement)
-        #print('\n\n')
+        print(statement)
+        print('\n\n')
         try:
             curs.execute(statement)
         except Exception as e:
