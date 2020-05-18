@@ -1,5 +1,5 @@
-todo
 Data/
 me.db
 __pycache__/
 backup.db
+dry.db

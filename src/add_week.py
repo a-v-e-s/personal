@@ -4,9 +4,12 @@
 Documentation and such....
 """
 
-import re, sqlite3, datetime, calendar, shutil, os
+import re, datetime, os
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
+from sqlite3 import Connection
+from calendar import monthrange
+from shutil import copy
 from functools import partial
 from collections import OrderedDict
 from time import sleep
@@ -14,7 +17,7 @@ from time import sleep
 
 def parse(text, path='me.db'):
     #connect to our sql database:
-    db = sqlite3.Connection(path)
+    db = Connection(path)
     curs = db.cursor()
     # regular expressions for finding dates and days of the week:
     patt = re.compile(r'\d{1,2}\/\d{1,2}\/\d{1,2}')
@@ -42,7 +45,7 @@ Burnout, Quality_Of_Life\
             last_day = datetime.date(int('20'+last[2]), int(last[0]), int(last[1]))
         elif count >= 7:
             break
-        # clean this up
+        # for each item in the line, add it to the statement:
         for y in x.split('\t'):
             y = y.strip(' ')
             if re.match(patt2, y): # this is the first item
@@ -81,7 +84,7 @@ Burnout, Quality_Of_Life\
 
 def compile_weekly(first_day, last_day, path='me.db'):
     # connect to the appropriate database:
-    db = sqlite3.Connection(path)
+    db = Connection(path)
     curs = db.cursor()
     # copy first_day to day and create the base sql statement to build on:
     day = first_day
@@ -140,7 +143,7 @@ Total_Burnout, Total_Quality_Of_Life\
 
 def compile_monthly(month, year, path='me.db'):
     # connect to the appropriate sqlite database
-    db = sqlite3.Connection(path)
+    db = Connection(path)
     curs = db.cursor()
     # initialize the sql statement we will build on later:
     statement = 'INSERT INTO Monthly_Functionality (\
@@ -153,7 +156,7 @@ Average_Burnout, Average_Quality_Of_Life\
 ) Values ("'
     # create and fill the sums OrderedDict
     sums = ret_sums()
-    length = calendar.monthrange(year, month)[1] + 1
+    length = monthrange(year, month)[1] + 1
     for b in range(1, length):
         vals = curs.execute('SELECT * FROM Daily_Functionality WHERE Date="' + datetime.date(year, month, b).__str__() + '";').fetchall()
         sums['Total_Project_Hours'] += vals[0][2]
@@ -202,7 +205,7 @@ Average_Burnout, Average_Quality_Of_Life\
 
 def compile_annual(first_day, last_day, path='me.db'):
     # connect to the database:
-    db = sqlite3.Connection(path)
+    db = Connection(path)
     curs = db.cursor()
     # Create the sql statement we will build on later:
     statement = 'INSERT INTO Annual_Functionality (\
@@ -278,8 +281,8 @@ Average_Burnout, Average_Quality_Of_Life\
 
 def ret_sums():
     sums = OrderedDict()
-    # these are the values from the spreadsheet
-    # associated with columns in the sqlite database
+    # these are the columns from the sqlite database
+    # associated with values in the spreadsheet:
     sums['Total_Project_Hours'] = 0
     sums['Total_Study_Hours'] = 0
     sums['Total_Administrative_Hours'] = 0
@@ -311,18 +314,18 @@ def main(lines, dry, path):
     # create a copy of me.db to work with if doing a dry run:
     if dry_run:
         dry_db = os.path.join(os.path.dirname(os.path.abspath(db)), 'dry.db')
-        shutil.copy(db, dry_db)
+        copy(db, dry_db)
         db = dry_db
     # print values for debugging:
     print('text:\n', text)
     print('dry_run:', dry_run)
-    print('filepath:', db)
+    print('fileos.path.', db)
     print('\n\n')
     # process data for Daily_Functionality and Weekly_Functionality tables:
     first_day, last_day = parse(text, db)
     compile_weekly(first_day, last_day, db)
     # process data for Monthly_Functionality if we just ended the month:
-    if last_day.day < 7 or last_day == calendar.monthrange(first_day.year, first_day.month)[1]:
+    if last_day.day < 7 or last_day == monthrange(first_day.year, first_day.month)[1]:
         month = first_day.month
         year = first_day.year
         compile_monthly(month, year, db)
