@@ -9,12 +9,13 @@ from tkinter.filedialog import askopenfilename
 from datetime import date
 from functools import partial
 from sqlite3 import Connection
-from os import getcwd
+import os
+import statements, get_cursor
 
 
 class Gui:
-    def __init__(self):
-        root = tk.Tk()
+    def __init__(self, path='me.db'):
+        root = tk.Tk() if __name__ == '__main__' else tk.Toplevel()
         root.title('Burn Log')
         # Labels and text entries for describing the event:
         today = date.today().__str__()
@@ -31,31 +32,9 @@ class Gui:
         aggression = tk.StringVar()
         tk.Label(root, text='Peak Energy:').grid(row=9, column=1, columnspan=2)
         tk.Label(root, text='Peak Aggression:').grid(row=9, column=3, columnspan=2)
-        tk.Label(root, text="""
-        1: Barely awake
-        2: Calm
-        3: Focused
-        4: Mildly agitated
-        5: Moderately agitated
-        6: Very agitated
-        7: Between 6 & 8
-        8: Mild exertion
-        9: Moderate exertion
-        10: Heavy exertion
-        """).grid(row=10, column=1)
+        tk.Label(root, text=statements.energy_spinbox).grid(row=10, column=1)
         tk.Spinbox(root, bg='white', from_='1', to='10', increment='0.2', width=4, textvariable=energy).grid(row=10, column=2)
-        tk.Label(root, text="""
-        1: None
-        2: Muttering
-        3: Cursing
-        4: Screaming and Cursing
-        5: Rage Quitting
-        6: Veiled Threatening
-        7: Overt Threatening
-        8: Minor Violence
-        9: Moderate Violence
-        10: Extreme Violence
-        """).grid(row=10, column=3)
+        tk.Label(root, text=statements.aggression_spinbox).grid(row=10, column=3)
         tk.Spinbox(root, bg='white', from_='1', to='10', increment='0.2', width=4, textvariable=aggression).grid(row=10, column=4)
         # Text widget to describe the outcome in:
         tk.Label(root, text='Outcome of the Event:').grid(row=11, column=1, columnspan=4)
@@ -141,7 +120,8 @@ class Gui:
         aggression = aggression.get()
         outcome = outcome.get('1.0', 'end').rstrip('\n')
         # create the sql statement for the Burn_Log table
-        log_statement = 'INSERT INTO Burn_Log (Date, Description, Peak_Arousal, Peak_Aggression, Trigger_Thoughts, Result) Values ("' + today + '", "' + description + '", ' + energy + ', ' + aggression + ', "' + triggers + '", "' + outcome + '");'
+        log_statement = statements.insert_burn_log + today + '", "' + description + '", ' + \
+            energy + ', ' + aggression + ', "' + triggers + '", "' + outcome + '");'
         print(log_statement)
         # begin 2 parts for sql statement for Burn_Factors table:
         factors = 0
@@ -183,8 +163,7 @@ class Gui:
     def commit(self, sprout, log_statement, factors_statement, filepath):
         # connect to the sql database, execute the statement
         # commit the transaction and close the connection:
-        db = Connection(filepath.get())
-        curs = db.cursor()
+        curs, db = get_cursor.get_cursor(filepath.get())
         curs.execute(log_statement)
         curs.execute(factors_statement)
         db.commit()
@@ -193,4 +172,12 @@ class Gui:
 
 
 if __name__ == '__main__':
-    Gui()
+    # make sure we are in the correct directory:
+    try:
+        assert 'me.db' in os.listdir()
+    except AssertionError as e:
+        print(e)
+        print('Not in same directory as "me.db"')
+        exit()
+    # if that checks out, initialize the gui:
+    Gui('me.db')

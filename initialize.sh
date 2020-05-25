@@ -3,167 +3,23 @@
 mkdir -p Data/Biofeedback/
 touch me.db
 
-Command="CREATE TABLE Daily_Functionality (
-    Date TEXT PRIMARY KEY NOT NULL,
-    Weekday TEXT NOT NULL,
-    Project_Hours REAL NOT NULL DEFAULT 0,
-    Study_Hours REAL NOT NULL DEFAULT 0,
-    Administrative_Hours REAL NOT NULL DEFAULT 0,
-    Total_Work REAL NOT NULL DEFAULT 0,
-    Strength_Training REAL NOT NULL DEFAULT 0,
-    Cardio REAL NOT NULL DEFAULT 0,
-    Mobility REAL NOT NULL DEFAULT 0,
-    Total_Exercise REAL NOT NULL DEFAULT 0,
-    Social_Hours REAL NOT NULL DEFAULT 0,
-    Sleep_1 REAL NOT NULL DEFAULT 0,
-    Sleep_2 REAL NOT NULL DEFAULT 0,
-    Total_Sleep REAL NOT NULL DEFAULT 0,
-    Indulging REAL NOT NULL DEFAULT 0,
-    Flaking REAL NOT NULL DEFAULT 0,
-    Cursing REAL NOT NULL DEFAULT 0,
-    Intoxication REAL NOT NULL DEFAULT 0,
-    Total_Vices REAL NOT NULL DEFAULT 0,
-    Burnout REAL NOT NULL DEFAULT 0,
-    Over_Extending REAL NOT NULL DEFAULT 0,
-    Quality_Of_Life REAL NOT NULL DEFAULT 0,
-    Notes TEXT 
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_daily)"`
 sqlite3 me.db "$Command"
 
-Command="CREATE TABLE Weekly_Functionality (
-    Starting_Date TEXT PRIMARY KEY NOT NULL,
-    Ending_Date TEXT NOT NULL,
-    Total_Project_Hours REAL NOT NULL DEFAULT 0,
-    Total_Study_Hours REAL NOT NULL DEFAULT 0,
-    Total_Administrative_Hours REAL NOT NULL DEFAULT 0,
-    Total_Work REAL NOT NULL DEFAULT 0,
-    Total_Strength_Training REAL NOT NULL DEFAULT 0,
-    Total_Cardio REAL NOT NULL DEFAULT 0,
-    Total_Mobility REAL NOT NULL DEFAULT 0,
-    Total_Exercise REAL NOT NULL DEFAULT 0,
-    Total_Social_Hours REAL NOT NULL DEFAULT 0,
-    Total_Sleep_1 REAL NOT NULL DEFAULT 0,
-    Total_Sleep_2 REAL NOT NULL DEFAULT 0,
-    Total_Sleep REAL NOT NULL DEFAULT 0,
-    Total_Indulging REAL NOT NULL DEFAULT 0,
-    Total_Flaking REAL NOT NULL DEFAULT 0,
-    Total_Cursing REAL NOT NULL DEFAULT 0,
-    Total_Intoxication REAL NOT NULL DEFAULT 0,
-    Total_Vices REAL NOT NULL DEFAULT 0,
-    Total_Burnout REAL NOT NULL DEFAULT 0,
-    Total_Over_Extending REAL NOT NULL DEFAULT 0,
-    Total_Quality_Of_Life REAL NOT NULL DEFAULT 0
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_weekly)"`
 sqlite3 me.db "$Command"
 
-Command="CREATE TABLE Monthly_Functionality (
-    Starting_Date TEXT PRIMARY KEY NOT NULL,
-    Ending_Date TEXT NOT NULL,
-    Average_Project_Hours REAL NOT NULL DEFAULT 0,
-    Average_Study_Hours REAL NOT NULL DEFAULT 0,
-    Average_Administrative_Hours REAL NOT NULL DEFAULT 0,
-    Average_Work REAL NOT NULL DEFAULT 0,
-    Average_Strength_Training REAL NOT NULL DEFAULT 0,
-    Average_Cardio REAL NOT NULL DEFAULT 0,
-    Average_Mobility REAL NOT NULL DEFAULT 0,
-    Average_Exercise REAL NOT NULL DEFAULT 0,
-    Average_Social_Hours REAL NOT NULL DEFAULT 0,
-    Average_Sleep_1 REAL NOT NULL DEFAULT 0,
-    Average_Sleep_2 REAL NOT NULL DEFAULT 0,
-    Average_Sleep REAL NOT NULL DEFAULT 0,
-    Average_Indulging REAL NOT NULL DEFAULT 0,
-    Average_Flaking REAL NOT NULL DEFAULT 0,
-    Average_Cursing REAL NOT NULL DEFAULT 0,
-    Average_Intoxication REAL NOT NULL DEFAULT 0,
-    Average_Vices REAL NOT NULL DEFAULT 0,
-    Average_Burnout REAL NOT NULL DEFAULT 0,
-    Average_Over_Extending REAL NOT NULL DEFAULT 0,
-    Average_Quality_Of_Life REAL NOT NULL DEFAULT 0
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_monthly)"`
 sqlite3 me.db "$Command"
 
-Command="CREATE TABLE Annual_Functionality (
-    Starting_Date TEXT PRIMARY KEY NOT NULL,
-    Ending_Date TEXT NOT NULL,
-    Total_Project_Hours REAL NOT NULL DEFAULT 0,
-    Total_Study_Hours REAL NOT NULL DEFAULT 0,
-    Total_Administrative_Hours REAL NOT NULL DEFAULT 0,
-    Total_Work REAL NOT NULL DEFAULT 0,
-    Total_Strength_Training REAL NOT NULL DEFAULT 0,
-    Total_Cardio REAL NOT NULL DEFAULT 0,
-    Total_Mobility REAL NOT NULL DEFAULT 0,
-    Total_Exercise REAL NOT NULL DEFAULT 0,
-    Total_Social_Hours REAL NOT NULL DEFAULT 0,
-    Total_Sleep_1 REAL NOT NULL DEFAULT 0,
-    Total_Sleep_2 REAL NOT NULL DEFAULT 0,
-    Total_Sleep REAL NOT NULL DEFAULT 0,
-    Total_Indulging REAL NOT NULL DEFAULT 0,
-    Total_Flaking REAL NOT NULL DEFAULT 0,
-    Total_Cursing REAL NOT NULL DEFAULT 0,
-    Total_Intoxication REAL NOT NULL DEFAULT 0,
-    Total_Vices REAL NOT NULL DEFAULT 0,
-    Total_Burnout REAL NOT NULL DEFAULT 0,
-    Total_Over_Extending REAL NOT NULL DEFAULT 0,
-    Total_Quality_Of_Life REAL NOT NULL DEFAULT 0,
-    Average_Project_Hours REAL NOT NULL DEFAULT 0,
-    Average_Study_Hours REAL NOT NULL DEFAULT 0,
-    Average_Administrative_Hours REAL NOT NULL DEFAULT 0,
-    Average_Work REAL NOT NULL DEFAULT 0,
-    Average_Strength_Training REAL NOT NULL DEFAULT 0,
-    Average_Cardio REAL NOT NULL DEFAULT 0,
-    Average_Mobility REAL NOT NULL DEFAULT 0,
-    Average_Exercise REAL NOT NULL DEFAULT 0,
-    Average_Social_Hours REAL NOT NULL DEFAULT 0,
-    Average_Sleep_1 REAL NOT NULL DEFAULT 0,
-    Average_Sleep_2 REAL NOT NULL DEFAULT 0,
-    Average_Sleep REAL NOT NULL DEFAULT 0,
-    Average_Indulging REAL NOT NULL DEFAULT 0,
-    Average_Flaking REAL NOT NULL DEFAULT 0,
-    Average_Cursing REAL NOT NULL DEFAULT 0,
-    Average_Intoxication REAL NOT NULL DEFAULT 0,
-    Average_Vices REAL NOT NULL DEFAULT 0,
-    Average_Burnout REAL NOT NULL DEFAULT 0,
-    Average_Over_Extending REAL NOT NULL DEFAULT 0,
-    Average_Quality_Of_Life REAL NOT NULL DEFAULT 0
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_annually)"`
 sqlite3 me.db "$Command"
 
-Command="CREATE TABLE Burn_Log (
-    Date TEXT PRIMARY KEY NOT NULL,
-    Description TEXT NOT NULL,
-    Peak_Arousal REAL NOT NULL DEFAULT 1,
-    Peak_Aggression REAL NOT NULL DEFAULT 1,
-    Trigger_Thoughts TEXT NOT NULL,
-    Result TEXT NOT NULL,
-    Biofeedback_Filepath TEXT
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_log)"`
 sqlite3 me.db "$Command"
 
-Command="CREATE TABLE Burn_Factors (
-    Date TEXT PRIMARY KEY NOT NULL,
-    XXX INTEGER DEFAULT 0,
-    Food INTEGER DEFAULT 0,
-    Bread INTEGER DEFAULT 0,
-    Cheese INTEGER DEFAULT 0,
-    Sleep_Deprivation INTEGER DEFAULT 0,
-    Noise INTEGER DEFAULT 0,
-    Barking_Dog INTEGER DEFAULT 0,
-    Media INTEGER DEFAULT 0,
-    Social_Media INTEGER DEFAULT 0,
-    People INTEGER DEFAULT 0,
-    Crowds INTEGER DEFAULT 0,
-    Traffic INTEGER DEFAULT 0,
-    Hangover INTEGER DEFAULT 0,
-    Other TEXT,
-    Total_Factors INTEGER DEFAULT 0,
-    FOREIGN KEY(Date) REFERENCES Burn_Log(Date)
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_factors)"`
 sqlite3 me.db "$Command"
 
-Command="CREATE TABLE Psych (
-    Date TEXT PRIMARY KEY NOT NULL,
-    Type TEXT NOT NULL,
-    Insight TEXT NOT NULL,
-    Biofeedback_Filepath TEXT
-);"
+Command=`python3 -c "import src.statements as statements; print(statements.create_psych)"`
 sqlite3 me.db "$Command"

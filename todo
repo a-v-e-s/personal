@@ -2,3 +2,6 @@ get tarchiver.sh done so you can have backups for your sqlite databases and such
 
 Data visualization!!
 statistical relationships and such!
+
+test and debug on next weekly entry; it will probably have several problems.
+Will test daily, weekly, and monthly insert statements
