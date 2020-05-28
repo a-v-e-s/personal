@@ -1,7 +1,50 @@
-get tarchiver.sh done so you can have backups for your sqlite databases and such
+need a new backup plan for database, as tar works differently than i thought it did.
+tarchiver.sh will not work as I hoped.
+
+===================================================================================================
 
 Data visualization!!
 statistical relationships and such!
+relationships between:
+
+    any given column and the probability of burnout @ + range(-14, 15) days
+        apply to whole range of values possible:
+            probability of burnout @ range(-10, 11) days for range(0, 13) project/work/cardio/social/sleep/vice hours
+
+    any given column and the probability of > range(4, 11) hours of work @ + range(-14, 15) days
+        apply to whole range of values possible:
+            probability of burnout @ range(-14, 15) days for range(0, 13) project/work/cardio/social/sleep/vice hours
+
+    trendlines for each column over time (daily, weekly, monthly, and annually)
+
+    any given column and its correlation to any other column
+
+    graphs of variance of any given column
+
+    ```
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    fig = plt.figure()
+    ax = fig.add_axes([<left>,<bottom>,<width>,<height>])
+    # stuff
+    ax.plot(x,y)
+    ax.legend(*args)
+    ax.set_title(*args)
+    ax.set_xlabel(*args)
+    ax.set_ylabel(*args)
+    # ...
+    plt.show()
+
+===================================================================================================
 
 test and debug on next weekly entry; it will probably have several problems.
 Will test daily, weekly, and monthly insert statements
+Commit and merge with master if successful.
+
+===================================================================================================
+
+Figure out how to upload git repo to github WITHOUT statements.py
+All the really private material has been moved to there.
+
+===================================================================================================

@@ -3,3 +3,4 @@ me.db
 __pycache__/
 backup.db
 dry.db
+db.tar
