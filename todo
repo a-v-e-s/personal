@@ -19,7 +19,7 @@ relationships between:
 
     any given column and its correlation to any other column
 
-    graphs of variance of any given column
+    graphs of variance and variance over time of any given column
 
     ```
     import matplotlib.pyplot as plt
@@ -35,7 +35,7 @@ relationships between:
     ax.set_ylabel(*args)
     # ...
     plt.show()
-
+    ```
 ===================================================================================================
 
 test and debug on next weekly entry; it will probably have several problems.

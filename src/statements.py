@@ -1,6 +1,6 @@
 """
 Details not to be made public.
-Mostly a common location for length sql statements.
+Mostly a common location for lengthy sql statements.
 """
 
 from collections import OrderedDict

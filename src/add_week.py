@@ -278,6 +278,6 @@ if __name__ == '__main__':
     except AssertionError as e:
         print(e)
         print('Not in same directory as "me.db"')
-        exit()
+        exit(1)
     # if that checks out, initialize the gui:
     Gui('me.db')

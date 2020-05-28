@@ -16,6 +16,7 @@ if [[ `tar --list --file db.tar | wc -l` -gt 10 ]]; then
 
     index=0
     declare -a timestamps
+    # tar sends db.tar's files into this loop via process substitution at the end of the loop syntax
     while read i; do
         # get unix epoch seconds from date-string:
         c=`echo "$i" | cut -d '.' -f1`
@@ -26,7 +27,10 @@ if [[ `tar --list --file db.tar | wc -l` -gt 10 ]]; then
     done; < <(tar --list --file db.tar)
 
     # sort the array, cut to the first filename, and remove it
-    sort < <(for value in "${timestamps[@]}"; do echo "$value"; done) | head -n 1 | cut -d ':' -f2 | xargs tar --delete --file db.tar 
+    sort < <(for value in "${timestamps[@]}"; do echo "$value"; done) | \
+        head -n 1 | \
+        cut -d ':' -f2 | \
+        xargs tar --delete --file db.tar 
 
 fi
 
