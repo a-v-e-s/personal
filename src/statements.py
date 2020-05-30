@@ -5,7 +5,6 @@ Mostly a common location for lengthy sql statements.
 
 from collections import OrderedDict
 
-
 create_daily = "CREATE TABLE Daily_Functionality ( \
 Date TEXT PRIMARY KEY NOT NULL, \
 Weekday TEXT NOT NULL, \
@@ -231,25 +230,25 @@ energy_spinbox = """1: Barely awake
 10: Heavy exertion
 """
 
-keys = ['Total_Project_Hours',
-    'Total_Study_Hours',
-    'Total_Administrative_Hours',
-    'Total_Work',
-    'Total_Strength_Training',
-    'Total_Cardio',
-    'Total_Mobility',
-    'Total_Exercise',
-    'Total_Social_Hours', 
-    'Total_Sleep_1', 
-    'Total_Sleep_2', 
-    'Total_Sleep', 
-    'Total_Indulging', 
-    'Total_Flaking', 
-    'Total_Cursing', 
-    'Total_Intoxication', 
-    'Total_Vices',
-    'Total_Burnout',
-    'Total_Quality_Of_Life'
+keys = ['Total_Project_Hours',          # 0
+    'Total_Study_Hours',                # 1
+    'Total_Administrative_Hours',       # 2
+    'Total_Work',                       # 3
+    'Total_Strength_Training',          # 4
+    'Total_Cardio',                     # 5
+    'Total_Mobility',                   # 6
+    'Total_Exercise',                   # 7
+    'Total_Social_Hours',               # 8
+    'Total_Sleep_1',                    # 9
+    'Total_Sleep_2',                    # 10
+    'Total_Sleep',                      # 11
+    'Total_Indulging',                  # 12
+    'Total_Flaking',                    # 13
+    'Total_Cursing',                    # 14
+    'Total_Intoxication',               # 15
+    'Total_Vices',                      # 16
+    'Total_Burnout',                    # 17
+    'Total_Quality_Of_Life'             # 18
 ]
 
 def ret_sums():

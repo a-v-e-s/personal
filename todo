@@ -3,8 +3,13 @@ tarchiver.sh will not work as I hoped.
 
 ===================================================================================================
 
-Data visualization!!
-statistical relationships and such!
+Weed out subfactors and combined factors
+from being compared to one another e.g.
+Total_Vices and Intoxication
+Sleep 1 and Total_Sleep
+etc.
+
+meaningfulstatistical relationships and such!
 relationships between:
 
     any given column and the probability of burnout @ + range(-14, 15) days
