@@ -4,3 +4,4 @@ __pycache__/
 backup.db
 dry.db
 db.tar
+src/data_testing.py

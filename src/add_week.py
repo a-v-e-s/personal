@@ -121,28 +121,31 @@ def compile_monthly(month, year, cursor):
     sums = statements.ret_sums()
     length = monthrange(year, month)[1] + 1
     for b in range(1, length):
-        vals = cursor.execute('SELECT * FROM Daily_Functionality WHERE Date="' + datetime.date(year, month, b).__str__() + '";').fetchall()
+        vals = cursor.execute(
+            'SELECT * FROM Daily_Functionality WHERE Date="' +
+            datetime.date(year, month, b).__str__() +
+            '";'
+        ).fetchall()
         sums = tally_sums(sums, vals)
         # create the averages dict from sums
-        averages = OrderedDict()
-        for c in sums.keys():
-            key = c.replace('Total', 'Average')
-            averages[key] = sums[c] / length
-        # complete the sql statement:
-        statement += datetime.date(2020, month, 1).__str__() + '", "'
-        statement += datetime.date(2020, month, length-1).__str__() + '", '
-        for d in averages.keys():
-            statement += str(averages[d]) + ', '
-        statement = re.sub(r', $', r'', statement)
-        statement += ');'
-        # print and execute the statement
-        print(statement)
-        print('\n\n')
-        try:
-            cursor.execute(statement)
-        except Exception as e:
-            print(e)
-            break
+    averages = OrderedDict()
+    for c in sums.keys():
+        key = c.replace('Total', 'Average')
+        averages[key] = sums[c] / length
+    # complete the sql statement:
+    statement += datetime.date(2020, month, 1).__str__() + '", "'
+    statement += datetime.date(2020, month, length-1).__str__() + '", '
+    for d in averages.keys():
+        statement += str(averages[d]) + ', '
+    statement = re.sub(r', $', r'', statement)
+    statement += ');'
+    # print and execute the statement
+    print(statement)
+    print('\n\n')
+    try:
+        cursor.execute(statement)
+    except Exception as e:
+        print(e)
     # commit the transaction and close the database connections
     #db.commit()
     #curs.close(); db.close()
@@ -209,14 +212,17 @@ def tally_sums(sums, vals):
 
 def main(lines, dry, path):
     # get values from tkinter objects:
-    cursor, db = get_cursor.get_cursor(path, get_db=True)
+    path = path.get()
     text = lines.get('1.0', 'end')
     dry_run = True if dry.get() == 1 else False
     # create a copy of me.db to work with if doing a dry run:
     if dry_run:
+        cur_db = os.path.abspath(path)
         dry_db = os.path.join(os.path.dirname(os.path.abspath(path)), 'dry.db')
-        copy(db, dry_db)
-        db = dry_db
+        copy(cur_db, dry_db)
+        cursor, db = get_cursor.get_cursor(dry_db, get_db=True)
+    else:
+        cursor, db = get_cursor.get_cursor(path, get_db=True)
     # print values for debugging:
     print('text:\n', text)
     print('dry_run:', dry_run)
@@ -224,26 +230,23 @@ def main(lines, dry, path):
     print('\n\n')
     # process data for Daily_Functionality and Weekly_Functionality tables:
     first_day, last_day = parse(text, cursor)
-    db.commit()
     compile_weekly(first_day, last_day, cursor)
-    db.commit()
     # process data for Monthly_Functionality if we just ended the month:
     if last_day.day < 7 or last_day == monthrange(first_day.year, first_day.month)[1]:
         month = first_day.month
         year = first_day.year
         compile_monthly(month, year, cursor)
-        db.commit()
     # process data for Annual_Functionality if we just ended the year:
     if (last_day.month == 1 and last_day.day < 7) or (last_day.month == 12 and last_day.day == 31):
         d1 = datetime.date(first_day.year, 1, 1)
         d2 = datetime.date(first_day.year, 12, 31)
         compile_annual(d1, d2, cursor)
-        db.commit()
     # prompt user before deleting dry.db, if applicable:
     if dry_run:
         input('Type any key when it is okay to remove the temporary database, dry.db:\n')
-        os.remove(db)
+        os.remove(dry_db)
     # close the cursor and the database connection:
+    db.commit()
     cursor.close(); db.close()
 
 
@@ -260,12 +263,20 @@ class Gui:
         dry = tk.Checkbutton(root, variable=dry_run, offvalue=0, onvalue=1)
         dry.grid(row=2, column=2)
         dry.select()
+        # tkinter widgets to find 'me.db':
+        tk.Label(root, text='Type path of "me.db":').grid(row=3, column=1, columnspan=2)
+        path = tk.Entry(root, width=80)
+        path.grid(row=4, column=1)
+        finder = tk.Button(root, text='Browse', command=(
+            lambda x=path: x.insert(0, askopenfilename())
+        ))
+        finder.grid(row=4, column=2)
         # buttons to start or quit:
         process = tk.Button(root, text='Process Text', command=partial(
             main, lines, dry_run, path
         ))
-        process.grid(row=3, column=1)
-        tk.Button(root, text='Quit', command=root.destroy).grid(row=3, column=2)
+        process.grid(row=5, column=1)
+        tk.Button(root, text='Quit', command=root.destroy).grid(row=5, column=2)
         # keybinding and gui initialization:
         root.bind(sequence='<Return>', func=partial(main, lines, dry_run, path))
         root.mainloop()
