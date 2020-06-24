@@ -5,3 +5,4 @@ backup.db
 dry.db
 db.tar
 src/data_testing.py
+src/mass_inserts.py
